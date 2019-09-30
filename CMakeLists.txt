@@ -33,5 +33,5 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fPIC -std=c++11 -fopenmp")
 include_directories(${INC_DIRS})
-add_executable(main src/main.cpp ${SRC_FILES} )
-target_link_libraries(main ${OpenCV_LIBS} ${LIBS})
+add_executable(mnist src/mnist.cpp ${SRC_FILES} )
+target_link_libraries(mnist ${OpenCV_LIBS} ${LIBS})
