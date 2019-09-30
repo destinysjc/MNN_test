@@ -9,3 +9,5 @@ https://github.com/xindongzhang/MNN-APPLICATIONS
 ## >> ./mnist
 ## test pfld
 ## >> ./pfld
+## test blazeface
+## >> ./blazeface
