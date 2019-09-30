@@ -17,10 +17,13 @@ set(INC_DIRS
     ${PROJECT_SOURCE_DIR}/include/mnn/source/cv
     ${PROJECT_SOURCE_DIR}/include/mnn/source/math
     ${PROJECT_SOURCE_DIR}/include/mnn/source/shape
+    ${PROJECT_SOURCE_DIR}/include/mnn/source/src
+    ${PROJECT_SOURCE_DIR}/src
 )
 
 set(SRC_FILES
     ${PROJECT_SOURCE_DIR}/include/mnn/tools/cpp/revertMNNModel.cpp
+    ${PROJECT_SOURCE_DIR}/src/pfld.cpp
 )
 
 FIND_PACKAGE( OpenMP REQUIRED)
@@ -35,3 +38,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fPIC -std=c++11 -fopenmp")
 include_directories(${INC_DIRS})
 add_executable(mnist src/mnist.cpp ${SRC_FILES} )
 target_link_libraries(mnist ${OpenCV_LIBS} ${LIBS})
+
+add_executable(pfld src/landmark.cpp ${SRC_FILES} )
+target_link_libraries(pfld ${OpenCV_LIBS} ${LIBS})
