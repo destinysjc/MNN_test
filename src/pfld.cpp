@@ -12,7 +12,11 @@
 class PFLD::Impl {
 public:
     Impl() {
-        device_ = MNN_FORWARD_CPU;
+        device_ = 0;
+        precision_ = 0;
+        power_ = 0;
+        memory_ = 0;
+        
         initialized_ = false;
     }
     ~Impl() {
@@ -25,7 +29,12 @@ public:
 
     std::shared_ptr<MNN::Interpreter> landmarker_;
     const int inputSize_ = 96;
+    
     int device_;
+    int precision_;
+    int power_;
+    int memory_;
+
     MNN::Session* session_ = nullptr;
     MNN::Tensor* input_tensor_ = nullptr;
     bool initialized_;
@@ -48,7 +57,11 @@ int PFLD::Impl::LoadModel(const char* root_path) {
     MNN::ScheduleConfig config;
     config.numThread = 1;
     config.type      = static_cast<MNNForwardType>(device_);
+
     MNN::BackendConfig backendConfig;
+    backendConfig.precision = (MNN::BackendConfig::PrecisionMode)precision_;
+    backendConfig.power = (MNN::BackendConfig::PowerMode) power_;
+    backendConfig.memory = (MNN::BackendConfig::MemoryMode) memory_;
     config.backendConfig = &backendConfig;
     session_ = landmarker_->createSession(config);
 
