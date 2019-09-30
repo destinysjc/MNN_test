@@ -24,6 +24,7 @@ set(INC_DIRS
 set(SRC_FILES
     ${PROJECT_SOURCE_DIR}/include/mnn/tools/cpp/revertMNNModel.cpp
     ${PROJECT_SOURCE_DIR}/src/pfld.cpp
+    ${PROJECT_SOURCE_DIR}/src/blazeface.cpp
 )
 
 FIND_PACKAGE( OpenMP REQUIRED)
@@ -41,3 +42,6 @@ target_link_libraries(mnist ${OpenCV_LIBS} ${LIBS})
 
 add_executable(pfld src/landmark.cpp ${SRC_FILES} )
 target_link_libraries(pfld ${OpenCV_LIBS} ${LIBS})
+
+add_executable(blazeface src/detect.cpp ${SRC_FILES} )
+target_link_libraries(blazeface ${OpenCV_LIBS} ${LIBS})
