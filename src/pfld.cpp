@@ -27,6 +27,7 @@ public:
     const int inputSize_ = 96;
     int device_;
     MNN::Session* session_ = nullptr;
+    MNN::Tensor* input_tensor_ = nullptr;
     bool initialized_;
 };
 
@@ -50,6 +51,11 @@ int PFLD::Impl::LoadModel(const char* root_path) {
     MNN::BackendConfig backendConfig;
     config.backendConfig = &backendConfig;
     session_ = landmarker_->createSession(config);
+
+    // nhwc to nchw
+    std::vector<int> dims{1, inputSize_, inputSize_, 3};
+    input_tensor_ = MNN::Tensor::create<float>(dims, NULL, MNN::Tensor::TENSORFLOW);
+
     initialized_ = true;
 
     return 0;
@@ -78,15 +84,12 @@ int PFLD::Impl::ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2
     face_resized.convertTo(face_resized, CV_32FC3);
     face_resized = (face_resized - 123.0f) / 58.0f;
 
-    // nhwc to nchw
-    std::vector<int> dims{1, inputSize_, inputSize_, 3};
-    auto nhwc_Tensor = MNN::Tensor::create<float>(dims, NULL, MNN::Tensor::TENSORFLOW);
-    auto nhwc_data = nhwc_Tensor->host<float>();
-    auto nhwc_size = nhwc_Tensor->size();
-    ::memcpy(nhwc_data, face_resized.data, nhwc_size);
+    auto tensor_data = input_tensor_->host<float>();
+    auto tensor_size = input_tensor_->size();
+    ::memcpy(tensor_data, face_resized.data, tensor_size);
 
     auto inputTensor = landmarker_->getSessionInput(session_, nullptr);
-    inputTensor->copyFromHostTensor(nhwc_Tensor);
+    inputTensor->copyFromHostTensor(input_tensor_);
     landmarker_->runSession(session_);
 
     // get output
