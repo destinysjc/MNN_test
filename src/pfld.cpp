@@ -88,8 +88,8 @@ int PFLD::Impl::ExtractKeypoints(const cv::Mat& img_face, std::vector<cv::Point2
     auto tensor_size = input_tensor_->size();
     ::memcpy(tensor_data, face_resized.data, tensor_size);
 
-    auto inputTensor = landmarker_->getSessionInput(session_, nullptr);
-    inputTensor->copyFromHostTensor(input_tensor_);
+    auto input_tensor = landmarker_->getSessionInput(session_, nullptr);
+    input_tensor->copyFromHostTensor(input_tensor_);
     landmarker_->runSession(session_);
 
     // get output
