@@ -1,13 +1,14 @@
 # MNN_mnist
 learn how to use mnn.
-## code && model comes from:
+## 你需要用自己编译的MNN库，替换掉项目中的mnn库
+## 代码和模型来自于:
 https://github.com/xindongzhang/MNN-APPLICATIONS
-## I just split the modules, and test on my jetson nano system
-## All you need to do is:
+## 我仅仅是将该项目中的模块分解、重组及测试
+## 在替换完mnn库之后，你需要:
 ## >> mkdir build && cd build && cmake .. && make -j3
-## test mnist
+## 测试mnist
 ## >> ./mnist
-## test pfld
+## 测试pfld
 ## >> ./pfld
-## test blazeface
+## 测试blazeface
 ## >> ./blazeface
